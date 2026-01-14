@@ -1,0 +1,18 @@
+{%- set positive_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #69ae34; border-radius: 50%;"></span>' %}
+{%- set critical_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #d63f38; border-radius: 50%;"></span>' %}
+{%- set high_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #fe6e73; border-radius: 50%;"></span>' %}
+
+{% if not controls %}
+
+{{ positive_ball | safe }} **No critical or high severity control failures detected.**
+{% else %}
+
+**Failed Critical and High Severity Controls**
+
+| Severity | Control ID | Title |
+|----------|------------|-------|
+{%- for ctrl in controls %}
+{%- set icon = critical_ball if ctrl.severity == "CRITICAL" else high_ball %}
+| {{ icon | safe }} | [{{ ctrl.control_id }}]({{ ctrl.doc_url }}) | {{ ctrl.title }} |
+{%- endfor %}
+{% endif %}

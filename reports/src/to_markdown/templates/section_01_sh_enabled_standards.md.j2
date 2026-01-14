@@ -1,0 +1,43 @@
+
+## 1. AWS Security Hub: Enabled Security Standards
+
+This section lists all compliance standards available in AWS Security Hub for account `{{ account_id }}`.
+
+The table below indicates which standards are currently enabled. You can click on the standard name to view more details in the AWS Console.
+
+{% if not standards %}
+
+*No security standards enabled for this account in region `{{ region_name }}`.*
+
+{% else %}
+
+| Security standard | Enabled |
+|-------------------|:-------:|
+{%- for sub in standards %}
+{%- set std_name = sub.get('Name', 'N/A') %}
+{%- set std_arn = sub.get('StandardsArn', '') %}
+{%- set match = std_arn | regex_search('::standards/([^/]+)/v/([^/]+)') %}
+{%- set status = sub.get('Enabled', False) %}
+{%- set emoji = "✅" if status else "❌" %}
+{%- if match and status %}
+{%- set std_code = match[0] %}
+{%- set std_version = match[1] %}
+{%- set standard_link = "https://eu-north-1.console.aws.amazon.com/securityhub/home?region=eu-north-1#/standards/" ~ std_code ~ "-" ~ std_version %}
+| [{{ std_name }}]({{ standard_link }}) | {{ emoji }} |
+{%- else %}
+| {{ std_name }} | {{ emoji }} |
+{%- endif %}
+{%- endfor %}
+
+**Legend:**
+
+- ✅ Enabled
+- ❌ Not enabled
+
+**Total enabled standards:** {{ standards | selectattr('Enabled') | list | length }}
+
+To enable security standards, please visit the AWS Security Hub console.
+
+[Open AWS Security Hub CSPM Console](https://eu-north-1.console.aws.amazon.com/securityhub/home?region=eu-north-1#/standards)
+
+{% endif %}

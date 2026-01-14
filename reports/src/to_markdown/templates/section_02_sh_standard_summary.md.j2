@@ -1,0 +1,31 @@
+<hr class='section-pagebreak'>
+
+## 2. AWS Security Hub: Standard Summary
+
+{% include 'section_02_sh_compliance_summary_table.md.j2' %}
+
+{% for data in standards_data %}
+<hr class='section-pagebreak'>
+
+{% set name = data.standard.id %}
+{% set stats = data.summary %}
+{% include 'section_02_sh_security_score_card.md.j2' %}
+
+{% set failed_severity = data.severity_breakdown.failed_controls %}
+{% set total_severity = data.severity_breakdown.all_controls %}
+{% include 'section_02_sh_severity_table.md.j2' %}
+
+{% set controls = data.failed_controls.critical_and_high %}
+{% include 'section_02_sh_failed_controls_table.md.j2' %}
+
+{% endfor %}
+
+---
+
+**Understanding the metrics**
+
+- **Security Score**: Percentage of controls that have passed compliance checks. Higher scores indicate better security posture.
+- **Failed Controls**: Number of security controls that have one or more failing findings, shown as `failed/total` by severity.
+- **Failed Findings**: Total number of individual resource compliance violations across all findings.
+
+> 💡 **Note**: A single control may generate multiple findings across different resources. For example, one S3 bucket control may produce findings for each non-compliant bucket in your account.

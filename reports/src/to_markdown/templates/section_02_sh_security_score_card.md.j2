@@ -1,0 +1,25 @@
+
+### `{{ name }}`
+
+
+{%- set score = (stats.passed / (stats.passed + stats.failed) * 100) | int %}
+{%- set total = (stats.passed + stats.failed) | int %}
+
+{%- set color = "#10b981" if score >= 80 else "#f59e0b" if score >= 60 else "#ef4444" %}
+{%- set passed_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #69ae34; border-radius: 50%;"></span>' %}
+{%- set failed_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #d63f38; border-radius: 50%;"></span>' %}
+{%- set nodata_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #879596; border-radius: 50%;"></span>' %}
+{%- set unknown_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #ec7211; border-radius: 50%;"></span>' %}
+{%- set disabled_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #545b64; border-radius: 50%;"></span>' %}
+
+<div style="font-size: 72px; font-weight: bold; line-height: 1;">
+    {{ score }}%
+</div>
+{{ stats.passed }} of {{ total }} controls passed
+
+**All Controls by Severity**
+
+| Metric | Passed {{ passed_ball | safe }} | Failed {{ failed_ball | safe }} | No data {{ nodata_ball | safe }} | Unknown {{ unknown_ball | safe }} | Disabled {{ disabled_ball | safe }} |
+|--------|:--------:|:--------:|:---------:|:---------:|:----------:|
+| **Controls** | {{ stats.passed }} | {{ stats.failed }} | {{ stats.no_data }} | {{ stats.unknown }} | {{ stats.disabled }} |
+

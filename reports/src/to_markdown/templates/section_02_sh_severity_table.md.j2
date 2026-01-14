@@ -1,0 +1,13 @@
+
+{%- set critical_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #d63f38; border-radius: 50%;"></span>' %}
+{%- set high_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #fe6e73; border-radius: 50%;"></span>' %}
+{%- set medium_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #f89256; border-radius: 50%;"></span>' %}
+{%- set low_ball = '<span style="display: inline-block; width: 10px; height: 10px; background-color: #dfb52c; border-radius: 50%;"></span>' %}
+
+**Failed Checks by Severity**
+
+| Metric | Critical {{ critical_ball | safe }} | High {{ high_ball | safe }} | Medium {{ medium_ball | safe }} | Low {{ low_ball | safe }} |
+|--------|:------------:|:--------:|:----------:|:-------:|
+| **Failed Controls** | {{ failed_severity.critical }}/{{ total_severity.critical }} | {{ failed_severity.high }}/{{ total_severity.high }} | {{ failed_severity.medium }}/{{ total_severity.medium }} | {{ failed_severity.low }}/{{ total_severity.low }} |
+
+

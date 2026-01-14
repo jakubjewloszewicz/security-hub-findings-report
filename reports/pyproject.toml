@@ -1,0 +1,30 @@
+[project]
+name = "reports"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "argparse>=1.4.0",
+    "boto3>=1.40.21",
+    "dotenv>=0.9.9",
+    "grip>=4.6.2",
+    "jinja2>=3.1.0",
+    "markdown>=3.10",
+    "markdown2>=2.5.4",
+    "matplotlib>=3.10.6",
+    "numpy>=2.3.2",
+    "pandas>=2.3.2",
+    "pyarrow>=18.0.0",
+    "pycountry>=24.6.1",
+    "pyyaml>=6.0.2",
+    "requests>=2.32.5",
+    "tabulate>=0.9.0",
+    "weasyprint>=66.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]

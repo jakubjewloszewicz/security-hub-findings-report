@@ -1,0 +1,11 @@
+
+### Compliance Status Summary
+
+| Standard | ✅ Passed | ❌ Failed | Total | Security Score |
+|----------|----------:|---------:|------:|---------------:|
+{%- for data in standards_data %}
+{%- set name = data['standard']['id'] %}
+{%- set stats = data['summary'] %}
+{%- set score = (stats['passed'] / (stats['passed'] + stats['failed']) * 100) | int if (stats['passed'] + stats['failed']) > 0 else 0 %}
+| {{ name }} | {{ stats['passed'] }} | {{ stats['failed'] }} | {{ stats['total_controls'] }} | {{ score }}% |
+{%- endfor %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ title or 'AWS Security Hub Compliance Report' }}</title>
+    <style>
+        {{ css }}
+    </style>
+</head>
+<body>
+    <div class="cover-page">
+        {{ cover_html|safe }}
+    </div>
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        {{ toc_html|safe if toc_html else '<p>No table of contents available</p>' }}
+    </div>
+    {{ html_body|safe }}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<table style="width:100%; text-align:center;">
+<thead>
+<tr>
+<th align="center">Conformance Pack</th>
+<th align="right"><span style="display: inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-right: 6px;"></span>Passed</th>
+<th align="right"><span style="display: inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-right: 6px;"></span>Failed</th>
+<th align="right"><span style="display: inline-block; width: 12px; height: 12px; background-color: #6b7280; border-radius: 50%; margin-right: 6px;"></span>Total</th>
+<th align="right">Compliance Score<br><span style="font-weight:normal; font-size:12px;">(Compliant Rule-Resources / Total)</span></th>
+</tr>
+</thead>
+<tbody>
+{% for row in summary_rows %}
+<tr>
+    <td align="center">{{ row.pack }}</td>
+    <td align="right">{{ row.passed }}</td>
+    <td align="right">{{ row.failed }}</td>
+    <td align="right">{{ row.total }}</td>
+    <td align="right">{{ row.score | round | int }}%</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>

@@ -1,0 +1,27 @@
+
+<hr class='section-pagebreak'>
+
+## 3. AWS Config: Enabled Conformance Packs
+
+{% if conformance_packs|length == 0 %}
+
+*No AWS Config conformance packs enabled for this account in region `{{ region_name }}`.*
+
+{% else %}
+
+The table below indicates which conformance packs are currently enabled in AWS Config for account `{{ account_id }}`.
+
+| Conformance pack | Enabled |
+|------------------|:---------:|
+{% for pack in conformance_packs -%}
+| {% if pack.standard_link %}[{{ pack.name }}]({{ pack.standard_link }}){% else %}{{ pack.name }}{% endif %} | ✅ |
+{% endfor -%}
+
+**Total enabled conformance packs:** {{ conformance_packs|length }}
+
+To enable AWS Config conformance packs, please visit the AWS Config console.
+
+[Open AWS Config Console](https://{{ region_name }}.console.aws.amazon.com/config/home?region={{ region_name }}#/conformance-packs)
+
+{% endif %}
+

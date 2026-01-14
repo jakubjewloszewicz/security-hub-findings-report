@@ -1,0 +1,109 @@
+<hr class='section-pagebreak'>
+
+## Appendix: Top Security Hub Findings
+
+- **Total CRITICAL Findings:** {{ critical_findings|length }}
+- **Total HIGH Findings:** {{ high_findings|length }}
+- **Total Failed Findings:** {{ failed_findings|length }}
+
+### Critical Severity Findings
+
+These findings represent the highest security risks and should be addressed immediately.
+
+{% for finding in critical_findings %}
+{% set idx = loop.index %}
+{% set title = finding.get('Title', 'N/A') %}
+{% set generator_id = finding.get('GeneratorId', '').split('/')|last %}
+{% set severity = finding.get('Severity', {}).get('Label', 'UNKNOWN') %}
+{% set resources = finding.get('Resources', []) %}
+{% set resource_type = resources[0].get('Type', 'N/A') if resources else 'N/A' %}
+{% set resource_id = resources[0].get('Id', 'N/A') if resources else 'N/A' %}
+{% set compliance_status = finding.get('Compliance', {}).get('Status', 'N/A') %}
+{% set description = finding.get('Description', 'N/A') %}
+{% set remediation_url = finding.get('Remediation', {}).get('Recommendation', {}).get('Url', '') %}
+{% set annotation = finding.get('ProductFields', {}).get('aws/securityhub/annotation', '') %}
+{% set associated_standards = finding.get('Compliance', {}).get('AssociatedStandards', []) %}
+{% set standards_list = (associated_standards|map(attribute='StandardsId')|join('<br>')) if associated_standards else 'None' %}
+{% set first_observed = finding.get('FirstObservedAt', 'N/A') %}
+{% set last_observed = finding.get('LastObservedAt', 'N/A') %}
+{% set status_icon = "❌" if compliance_status == "FAILED" else "✅" if compliance_status == "PASSED" else "⚠️" %}
+{% set severity_icon = "🔴" if severity == "CRITICAL" else "🟠" if severity == "HIGH" else "🟡" %}
+
+**{{ idx }}. {{ title }}**
+
+| Property | Value |
+|----------|-------|
+| **Severity** | {{ severity_icon }} **{{ severity }}** |
+| **Control ID** | `{{ generator_id }}` |
+| **Associated Standards** | {{ standards_list | safe }} |
+| **Compliance Status** | {{ status_icon }} **{{ compliance_status }}** |
+| **Resource Type** | `{{ resource_type }}` |
+| **Resource ID** | `{{ resource_id }}` |
+| **First Observed** | {{ first_observed.split('T')[0] if 'T' in first_observed else first_observed }} |
+| **Last Observed** | {{ last_observed.split('T')[0] if 'T' in last_observed else last_observed }} |
+
+
+**Description**
+
+{{ description }}
+
+{% if annotation %}**Issue Details:** {{ annotation }}{% endif %}
+
+**Remediation**
+
+{% if remediation_url %}[View AWS Remediation Guide]({{ remediation_url }}){% endif %}
+
+---
+
+{% endfor %}
+
+### High Severity Findings
+
+These findings indicate significant security concerns that require prompt attention.
+
+{% for finding in high_findings %}
+{% set idx = loop.index %}
+{% set title = finding.get('Title', 'N/A') %}
+{% set generator_id = finding.get('GeneratorId', '').split('/')|last %}
+{% set severity = finding.get('Severity', {}).get('Label', 'UNKNOWN') %}
+{% set resources = finding.get('Resources', []) %}
+{% set resource_type = resources[0].get('Type', 'N/A') if resources else 'N/A' %}
+{% set resource_id = resources[0].get('Id', 'N/A') if resources else 'N/A' %}
+{% set compliance_status = finding.get('Compliance', {}).get('Status', 'N/A') %}
+{% set description = finding.get('Description', 'N/A') %}
+{% set remediation_url = finding.get('Remediation', {}).get('Recommendation', {}).get('Url', '') %}
+{% set annotation = finding.get('ProductFields', {}).get('aws/securityhub/annotation', '') %}
+{% set associated_standards = finding.get('Compliance', {}).get('AssociatedStandards', []) %}
+{% set standards_list = (associated_standards|map(attribute='StandardsId')|join('<br>')) if associated_standards else 'None' %}
+{% set first_observed = finding.get('FirstObservedAt', 'N/A') %}
+{% set last_observed = finding.get('LastObservedAt', 'N/A') %}
+{% set status_icon = "❌" if compliance_status == "FAILED" else "✅" if compliance_status == "PASSED" else "⚠️" %}
+{% set severity_icon = "🔴" if severity == "CRITICAL" else "🟠" if severity == "HIGH" else "🟡" %}
+
+**{{ idx }}. {{ title }}**
+
+| Property | Value |
+|----------|-------|
+| **Severity** | {{ severity_icon }} **{{ severity }}** |
+| **Control ID** | `{{ generator_id }}` |
+| **Associated Standards** | {{ standards_list | safe }} |
+| **Compliance Status** | {{ status_icon }} **{{ compliance_status }}** |
+| **Resource Type** | `{{ resource_type }}` |
+| **Resource ID** | `{{ resource_id }}` |
+| **First Observed** | {{ first_observed.split('T')[0] if 'T' in first_observed else first_observed }} |
+| **Last Observed** | {{ last_observed.split('T')[0] if 'T' in last_observed else last_observed }} |
+
+
+**Description**
+
+{{ description }}
+
+{% if annotation %}**Issue Details:** {{ annotation }}{% endif %}
+
+**Remediation**
+
+{% if remediation_url %}[View AWS Remediation Guide]({{ remediation_url }}){% endif %}
+
+---
+
+{% endfor %}

@@ -1,0 +1,28 @@
+
+
+{% if summary_rows|length > 0 %}
+
+<hr class='section-pagebreak'>
+
+## 4. AWS Config: Conformance Pack Summary
+
+### Compliance Status Summary
+
+{%- set passed_ball = '<span style="display: inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%;"></span>' %}
+{%- set failed_ball = '<span style="display: inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%;"></span>' %}
+{%- set total_ball = '<span style="display: inline-block; width: 12px; height: 12px; background-color: #6b7280; border-radius: 50%;"></span>' %}
+
+| Conformance Pack | {{ passed_ball | safe }}Passed | {{ failed_ball | safe }}Failed | {{ total_ball | safe }}Total | Compliance Score |
+|------------------|:----------------:|:----------------:|:--------------:|:-----------------:|
+{%- for row in summary_rows %}
+| {{ row.pack }} | {{ row.passed }} | {{ row.failed }} | {{ row.total }} | {{ row.score | int }}% |
+{%- endfor %}
+
+{% endif %}
+
+**Understanding the metrics**
+
+- **Compliance Score**: Percentage of compliant rule-resource combinations in this conformance pack. This is calculated as the number of compliant rule-resource pairs divided by the total number of rule-resource pairs evaluated.
+- **Failed Controls**: Number of config rules that have failed compliance.
+
+> <span style="display: inline-block; width: 16px; height: 16px; background-color: #60a5fa; border-radius: 50%; text-align: center; line-height: 16px; font-size: 12px; font-weight: bold; color: white; margin-right: 4px;">i</span>**Note**: A single config rule may generate multiple findings across different resources. For example, one EC2 rule may produce findings for each non-compliant instance in your account. The compliance score reflects compliance at the rule-resource level, not just per rule.

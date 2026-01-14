@@ -1,0 +1,33 @@
+{% set pack = pack_data %}
+{%- set passed_ball = '<span style="display: inline-block; width: 12px; height: 12px; background-color: #10b981; border-radius: 50%; margin-right: 6px;"></span>' %}
+{%- set failed_ball = '<span style="display: inline-block; width: 12px; height: 12px; background-color: #ef4444; border-radius: 50%; margin-right: 6px;"></span>' %}
+{%- set no_data_ball = '<span style="display: inline-block; width: 12px; height: 12px; background-color: #9ca3af; border-radius: 50%; margin-right: 6px;"></span>' %}
+<hr class='section-pagebreak'>
+
+#### {{ pack.name }}
+
+
+**Control Status**
+
+| {{ passed_ball }}Passed | {{ failed_ball }}Failed | {{ no_data_ball }}No data |
+|:---:|:---:|:---:|
+| **{{ pack.passed }}** | **{{ pack.failed }}** | **{{ pack.not_available }}** |
+| {{ ((pack.passed / pack.total * 100) | round | int) if pack.total > 0 else 0 }}% | {{ ((pack.failed / pack.total * 100) | round | int) if pack.total > 0 else 0 }}% | {{ ((pack.not_available / pack.total * 100) | round | int) if pack.total > 0 else 0 }}% |
+
+
+**Failed Critical, High, and Medium Severity Controls**
+
+
+{% if pack.failed_critical_high_medium|length > 0 %}
+The following controls require immediate attention:
+
+| Severity | Config Rule Name |
+|----------|------------------|
+{% for control in pack.failed_critical_high_medium -%}
+| <span style="display: inline-block; width: 10px; height: 10px; background-color: {% if control.SeverityLabel == 'CRITICAL' %}#dc2626{% elif control.SeverityLabel == 'HIGH' %}#ea580c{% else %}#f59e0b{% endif %}; border-radius: 50%;"></span> | `{{ control.ConfigRuleName }}` |
+{% endfor -%}
+{% else %}
+`✅ No critical, high, or medium severity control failures detected.
+{% endif %}
+
+---
